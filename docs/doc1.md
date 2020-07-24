@@ -1,6 +1,6 @@
 ---
 id: doc1
-title: Style Guide
+title: Super Style Guide
 sidebar_label: Style Guide
 ---
 
