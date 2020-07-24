@@ -1,108 +1,56 @@
-const repoName = "website-boilerplate";
+const WEBSITE_TITLE = 'Website Boilerplate'
+const REPO_NAME = 'website-boilerplate'
+const DOCS_HOMEPAGE_ID = 'doc1'
 
 module.exports = {
-    title: "My Site",
-    tagline: "The tagline of my site",
-    url: "https://icpc-guc-community.github.io",
-    baseUrl: `/${repoName}/`,
-    favicon: "img/favicon.ico",
-    organizationName: "icpc-guc-community", // Usually your GitHub org/user name.
-    projectName: repoName, // Usually your repo name.
-    themeConfig: {
-        navbar: {
-            title: "My Site",
-            logo: {
-                alt: "My Site Logo",
-                src: "img/logo.svg",
-            },
-            links: [
-                {
-                    to: "docs/",
-                    activeBasePath: "docs",
-                    label: "Docs",
-                    position: "left",
-                },
-                { to: "blog", label: "Blog", position: "left" },
-                {
-                    href: "https://github.com/facebook/docusaurus",
-                    label: "GitHub",
-                    position: "right",
-                },
-            ],
+  title: WEBSITE_TITLE,
+  tagline: `The tagline of ${WEBSITE_TITLE}`,
+  url: 'https://icpc-guc-community.github.io',
+  baseUrl: `/${REPO_NAME}/`,
+  favicon: 'img/favicon.ico',
+  organizationName: 'icpc-guc-community',
+  projectName: REPO_NAME,
+  themeConfig: {
+    navbar: {
+      title: WEBSITE_TITLE,
+      links: [
+        {
+          to: 'docs/',
+          activeBasePath: 'docs',
+          label: 'Tutorials',
+          position: 'left'
         },
-        footer: {
-            style: "dark",
-            links: [
-                {
-                    title: "Docs",
-                    items: [
-                        {
-                            label: "Style Guide",
-                            to: "docs/",
-                        },
-                        {
-                            label: "Second Doc",
-                            to: "docs/doc2/",
-                        },
-                    ],
-                },
-                {
-                    title: "Community",
-                    items: [
-                        {
-                            label: "Stack Overflow",
-                            href:
-                                "https://stackoverflow.com/questions/tagged/docusaurus",
-                        },
-                        {
-                            label: "Discord",
-                            href: "https://discordapp.com/invite/docusaurus",
-                        },
-                        {
-                            label: "Twitter",
-                            href: "https://twitter.com/docusaurus",
-                        },
-                    ],
-                },
-                {
-                    title: "More",
-                    items: [
-                        {
-                            label: "Blog",
-                            to: "blog",
-                        },
-                        {
-                            label: "GitHub",
-                            href: "https://github.com/facebook/docusaurus",
-                        },
-                    ],
-                },
-            ],
-            copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-        },
+        { to: 'blog', label: 'Blog', position: 'left' },
+        {
+          href: `https://github.com/icpc-guc-community/${REPO_NAME}`,
+          label: 'GitHub',
+          position: 'right'
+        }
+      ]
     },
-    presets: [
-        [
-            "@docusaurus/preset-classic",
-            {
-                docs: {
-                    // It is recommended to set document id as docs home page (`docs/` path).
-                    homePageId: "doc1",
-                    sidebarPath: require.resolve("./sidebars.js"),
-                    // Please change this to your repo.
-                    editUrl:
-                        "https://github.com/facebook/docusaurus/edit/master/website/",
-                },
-                blog: {
-                    showReadingTime: true,
-                    // Please change this to your repo.
-                    editUrl:
-                        "https://github.com/facebook/docusaurus/edit/master/website/blog/",
-                },
-                theme: {
-                    customCss: require.resolve("./src/css/custom.css"),
-                },
-            },
-        ],
-    ],
-};
+    footer: {
+      style: 'dark',
+      copyright: `Made with ❤️ by ICPC GUC Commnuity. Built with Docusaurus.`
+    }
+  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // It is recommended to set document id as docs home page (`docs/` path).
+          homePageId: DOCS_HOMEPAGE_ID,
+          sidebarPath: require.resolve('./sidebars.js'),
+          editUrl: `https://github.com/icpc-guc-community/${REPO_NAME}/edit/master/`
+        },
+        blog: {
+          showReadingTime: true,
+          editUrl: `https://github.com/icpc-guc-community/${REPO_NAME}/edit/master/`
+        },
+        theme: {
+          customCss: require.resolve('./src/css/custom.css')
+        }
+      }
+    ]
+  ]
+}
