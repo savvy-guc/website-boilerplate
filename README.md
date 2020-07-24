@@ -2,8 +2,6 @@
 
 This website boilerplate is built using [Docusaurus](https://v2.docusaurus.io/). You can view it [here](https://icpc-guc-community.github.io/website-boilerplate/).
 
-## Contributing
-
 ### Requirements
 
 * [Node.js](https://nodejs.org/en/download/) version >= 10.15.1 or above (which can be checked by running node -v).
