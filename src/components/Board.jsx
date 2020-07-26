@@ -20,19 +20,19 @@ const classes = {
   brush: {
     marginRight: 4
   },
-  footer: {
+  leftFooter: {
     position: 'absolute',
+    padding: 16,
     left: 0,
     bottom: 0,
     zIndex: 100
   },
-  footerContainer: {
-    width: '100vw',
+  rightFooter: {
+    position: 'absolute',
     padding: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    right: 0,
+    bottom: 0,
+    zIndex: 100
   }
 }
 
@@ -68,35 +68,35 @@ function Board({ onDraw, onClear }) {
           onChange={handleDrawing}
         />
       </div>
-      <div style={classes.footer}>
-        <div style={classes.footerContainer}>
-          <div style={classes.brushContainer}>
-            <Button
-              variant='outlined'
-              style={classes.footerItem}
-              onClick={handleClear}
-            >
-              Clear
-            </Button>
-            <BrushMenu
-              brushRadius={brushRadius}
-              lazyRadius={lazyRadius}
-              onChange={handleBrushChange}
-            />
-          </div>
-          <CirclePicker
-            color={brushColor}
-            onChangeComplete={handleColorChange}
-            colors={[
-              '#444444',
-              '#e91e63',
-              '#ffeb3b',
-              '#673ab7',
-              '#3f51b5',
-              '#4caf50'
-            ]}
+      <div style={classes.leftFooter}>
+        <div style={classes.brushContainer}>
+          <Button
+            variant='outlined'
+            style={classes.footerItem}
+            onClick={handleClear}
+          >
+            Clear
+          </Button>
+          <BrushMenu
+            brushRadius={brushRadius}
+            lazyRadius={lazyRadius}
+            onChange={handleBrushChange}
           />
         </div>
+      </div>
+      <div style={classes.rightFooter}>
+        <CirclePicker
+          color={brushColor}
+          onChangeComplete={handleColorChange}
+          colors={[
+            '#444444',
+            '#e91e63',
+            '#ffeb3b',
+            '#673ab7',
+            '#3f51b5',
+            '#4caf50'
+          ]}
+        />
       </div>
     </React.Fragment>
   )
