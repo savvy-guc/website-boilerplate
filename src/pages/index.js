@@ -17,7 +17,14 @@ const classes = {
     left: 0,
     right: 0,
     margin: 'auto',
+    zIndex: 1,
     color: 'black'
+  },
+  buttonContainer: {
+    position: 'absolute',
+    left: '50%',
+    right: '50%',
+    zIndex: 100
   },
   button: {
     color: 'black'
@@ -51,10 +58,10 @@ function Board({ onDraw, onClear }) {
 
   const canvasRef = useRef(null)
 
-  const handleDrawing = () => onDraw()
+  const handleDrawing = () => !!onDraw && onDraw()
   const handleClear = () => {
     canvasRef.current.clear()
-    onClear()
+    if (!!onClear) onClear()
   }
 
   return (
@@ -95,47 +102,58 @@ function Board({ onDraw, onClear }) {
   )
 }
 
-function HeroContent({ siteConfig }) {
-  return (
-    <div className='container'>
-      <h1 className='hero__title'>{siteConfig.title}</h1>
-      <p className='hero__subtitle'>{siteConfig.tagline}</p>
-      <div className={styles.buttons}>
-        <Link
-          className={clsx(
-            'button button--outline button--secondary button--lg',
-            styles.getStarted
-          )}
-          to={useBaseUrl('docs/')}
-        >
-          <div style={classes.button}>Get Started</div>
-        </Link>
-      </div>
-    </div>
-  )
-}
+const HeroContent = ({ siteConfig }) => (
+  <div className='container'>
+    <h1 className='hero__title'>{siteConfig.title}</h1>
+    <p className='hero__subtitle'>{siteConfig.tagline}</p>
+  </div>
+)
 
-function BoardHero({ children }) {
-  const [contentZIndex, setContentZIndex] = useState(100)
+const GetStartedButton = () => (
+  <div className={styles.buttons}>
+    <Link
+      className={clsx(
+        'button button--outline button--secondary button--lg',
+        styles.getStarted
+      )}
+      to={useBaseUrl('docs/')}
+    >
+      <div style={classes.button}>Get Started</div>
+    </Link>
+  </div>
+)
+
+function BoardHero({ siteConfig }) {
   const [hideContent, setHideContent] = useState(false)
 
-  const onDraw = () => setContentZIndex(1)
   const onClear = () => setHideContent(true)
 
   return (
     <React.Fragment>
       {!hideContent && (
-        <div style={{ ...classes.content, zIndex: contentZIndex }}>
-          {children}
-        </div>
+        <React.Fragment>
+          <div style={classes.content}>
+            <HeroContent siteConfig={siteConfig} />
+          </div>
+          <div style={classes.buttonContainer}>
+            <GetStartedButton />
+          </div>
+        </React.Fragment>
       )}
-      <Board onDraw={onDraw} onClear={onClear} />
+      <Board onClear={onClear} />
     </React.Fragment>
   )
 }
 
-function ColorHero({ children }) {
-  return <React.Fragment>{children}</React.Fragment>
+function ColorHero({ siteConfig }) {
+  return (
+    <React.Fragment>
+      <div style={classes.content}>
+        <HeroContent siteConfig={siteConfig} />
+        <GetStartedButton />
+      </div>
+    </React.Fragment>
+  )
 }
 
 function Home() {
@@ -149,9 +167,7 @@ function Home() {
   return (
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
-        <Hero>
-          <HeroContent siteConfig={siteConfig} />
-        </Hero>
+        <Hero siteConfig={siteConfig} />
       </header>
     </Layout>
   )

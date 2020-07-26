@@ -2,7 +2,10 @@ const constants = {
   WEBSITE_TITLE: 'Website Boilerplate',
   WEBSITE_TAGLINE: 'This is the awesome tagline',
   REPO_NAME: 'website-boilerplate',
-  DOCS_HOMEPAGE_ID: 'doc1'
+  DOCS_HOMEPAGE_ID: 'doc1',
+  SLACK:
+    'https://join.slack.com/t/gucicpccommunity20/shared_invite/enQtOTA0OTUzNTY0Mjc5LWU3NmQ3ZmRiMTYyNDYwMjVkNGExNzcwNjQ1OTdiYTdlZTA5Mjg0MTM2ZmRkNzIyNjY3MGJhZmExMjM2NTQzMjQ',
+  DISCORD: 'https://discord.gg/gcJfz9Y'
 }
 
 module.exports = {
@@ -33,6 +36,47 @@ module.exports = {
     },
     footer: {
       style: 'dark',
+      links: [
+        {
+          title: 'Learn',
+          items: [
+            {
+              label: 'Tutorials',
+              to: 'docs'
+            },
+            {
+              label: 'Blog',
+              to: 'blog'
+            }
+          ]
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Slack',
+              href: constants.SLACK
+            },
+            {
+              label: 'Discord',
+              href: constants.DISCORD
+            }
+          ]
+        },
+        {
+          title: 'Social',
+          items: [
+            {
+              label: 'Facebook',
+              href: 'https://www.facebook.com/acm.guc.community'
+            },
+            {
+              label: 'GitHub',
+              href: `https://github.com/icpc-guc-community/`
+            }
+          ]
+        }
+      ],
       copyright: `Made with ❤️ by ICPC GUC Commnuity`
     }
   },
