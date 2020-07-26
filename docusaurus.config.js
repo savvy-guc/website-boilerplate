@@ -5,7 +5,7 @@ const constants = {
   DOCS_HOMEPAGE_ID: 'doc1',
   SLACK:
     'https://join.slack.com/t/gucicpccommunity20/shared_invite/enQtOTA0OTUzNTY0Mjc5LWU3NmQ3ZmRiMTYyNDYwMjVkNGExNzcwNjQ1OTdiYTdlZTA5Mjg0MTM2ZmRkNzIyNjY3MGJhZmExMjM2NTQzMjQ',
-  DISCORD: 'https://discord.gg/gcJfz9Y'
+  DISCORD: 'https://discord.gg/9Nc9qcy'
 }
 
 module.exports = {

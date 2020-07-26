@@ -6,20 +6,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
 import useBaseUrl from '@docusaurus/useBaseUrl'
 import styles from './styles.module.css'
 import CanvasDraw from 'react-canvas-draw'
-import { Button } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+import BrushIcon from '@material-ui/icons/Brush'
 import { CirclePicker } from 'react-color'
 import { useMediaQuery } from 'react-responsive'
+import { Popover, Slider, Typography } from '@material-ui/core'
 
 const classes = {
-  content: {
-    position: 'absolute',
-    top: '25%',
-    left: 0,
-    right: 0,
-    margin: 'auto',
-    zIndex: 1,
-    color: 'black'
-  },
   buttonContainer: {
     position: 'absolute',
     left: '50%',
@@ -36,6 +29,40 @@ const classes = {
     width: '100vw',
     height: '100vh'
   },
+  brushContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  brush: {
+    marginRight: 4
+  },
+  brushButton: {
+    marginLeft: 8
+  },
+  brushMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    width: 300,
+    height: 200,
+    padding: 16
+  },
+  brushMenuItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  content: {
+    position: 'absolute',
+    top: '25%',
+    left: 0,
+    right: 0,
+    margin: 'auto',
+    zIndex: 1,
+    color: 'black'
+  },
   footer: {
     position: 'absolute',
     left: 0,
@@ -49,19 +76,68 @@ const classes = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  popover: {
+    padding: 16
   }
 }
 
-function Board({ onDraw, onClear }) {
-  const [brushColor, setBrushColor] = useState('#444')
-  const handleColorChange = (color) => setBrushColor(color.hex)
+function BrushMenu({ brushRadius, lazyRadius, onChange }) {
+  const minValue = 1
+  const maxValue = 50
 
+  const handleBrushChange = (event, value) => onChange(value, lazyRadius)
+  const handleLazyChange = (event, value) => onChange(brushRadius, value)
+
+  return (
+    <div style={classes.brushMenu}>
+      <div style={classes.brushMenuItem}>
+        <Typography>Brush Radius</Typography>
+        <Slider
+          min={minValue}
+          max={maxValue}
+          value={brushRadius}
+          step={1}
+          onChange={handleBrushChange}
+          valueLabelDisplay='auto'
+        />
+      </div>
+      <div style={classes.brushMenuItem}>
+        <Typography>Lazy Radius</Typography>
+        <Slider
+          min={minValue}
+          max={maxValue}
+          value={lazyRadius}
+          step={1}
+          onChange={handleLazyChange}
+          valueLabelDisplay='auto'
+        />
+      </div>
+    </div>
+  )
+}
+
+function Board({ onDraw, onClear }) {
   const canvasRef = useRef(null)
 
+  const [brushRadius, setBrushRadius] = useState(10)
+  const [lazyRadius, setLazyRadius] = useState(12)
+  const [brushColor, setBrushColor] = useState('#444')
+
+  const [brushEl, setBrushEl] = useState(null)
+
+  const handleColorChange = (color) => setBrushColor(color.hex)
   const handleDrawing = () => !!onDraw && onDraw()
   const handleClear = () => {
     canvasRef.current.clear()
     if (!!onClear) onClear()
+  }
+
+  const handleBrushClick = (event) => setBrushEl(event.currentTarget)
+  const handleBrushClose = () => setBrushEl(null)
+  const handleBrushChange = (brushRadius, lazyRadius) => {
+    setBrushRadius(brushRadius)
+    setLazyRadius(lazyRadius)
   }
 
   return (
@@ -69,6 +145,8 @@ function Board({ onDraw, onClear }) {
       <div style={classes.board}>
         <CanvasDraw
           ref={canvasRef}
+          brushRadius={brushRadius}
+          lazyRadius={lazyRadius}
           brushColor={brushColor}
           canvasWidth='100vw'
           canvasHeight='100vh'
@@ -77,13 +155,43 @@ function Board({ onDraw, onClear }) {
       </div>
       <div style={classes.footer}>
         <div style={classes.footerContainer}>
-          <Button
-            variant='outlined'
-            style={classes.footerItem}
-            onClick={handleClear}
-          >
-            Clear
-          </Button>
+          <div style={classes.brushContainer}>
+            <Button
+              variant='outlined'
+              style={classes.footerItem}
+              onClick={handleClear}
+            >
+              Clear
+            </Button>
+            <Button
+              aria-label='brush'
+              variant='outlined'
+              style={classes.brushButton}
+              onClick={handleBrushClick}
+            >
+              <BrushIcon style={classes.brush} />
+              Brush
+            </Button>
+            <Popover
+              anchorEl={brushEl}
+              open={!!brushEl}
+              onClose={handleBrushClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+            >
+              <BrushMenu
+                brushRadius={brushRadius}
+                lazyRadius={lazyRadius}
+                onChange={handleBrushChange}
+              />
+            </Popover>
+          </div>
           <CirclePicker
             color={brushColor}
             onChangeComplete={handleColorChange}
